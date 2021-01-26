@@ -1,28 +1,38 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <v-navigation-drawer app v-model="drawer">
+      <app-drawer @selectedText="setTitle" :title="defaultTitle" />
+    </v-navigation-drawer>
+
+    <v-app-bar app>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+      <v-toolbar-title> {{ title }} </v-toolbar-title>
+
+      <v-spacer></v-spacer>
+    </v-app-bar>
+
+    <v-main class="brown lighten-5"> </v-main>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import AppDrawer from "./components/AppDrawer";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    "app-drawer": AppDrawer,
+  },
+  data: () => ({
+    drawer: true,
+    defaultTitle: "Application",
+    title: "Application",
+  }),
+  methods: {
+    setTitle(val) {
+      this.title = val;
+    },
+  },
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
