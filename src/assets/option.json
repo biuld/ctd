@@ -1,0 +1,12 @@
+{
+  "series": [
+    {
+      "type": "tree",
+      "label": {
+        "position": "bottom"
+      },
+      "layout": "orthogonal",
+      "orient": "TB"
+    }
+  ]
+}
