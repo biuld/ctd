@@ -1,7 +1,3 @@
-// data Expr
-// = Figure Int
-// | Binary Token Expr Expr
-// import { lexx } from './Lexer.mjs'
 
 function Figure(i) {
 
@@ -17,20 +13,12 @@ function Figure(i) {
 }
 
 function Binary(t, l, r) {
-
   return {
     type: "Binary",
-    token: t,
+    op: t,
     lhs: l,
     rhs: r
   }
-}
-
-function getExprType(e) {
-  if (typeof e == "object")
-    return e.type
-  else
-    return `expected an object, got a ${typeof e}`
 }
 
 function getOpPrecedence(op) {
@@ -66,7 +54,7 @@ function parseBinary(tokens, precedence = 0) {
     case "+":
     case "-":
     case "*":
-    case "/":
+    case "/": {
       let p = getOpPrecedence(op)
       if (p > precedence) {
         let [r, rst] = parseExpr(tail, p)
@@ -75,7 +63,7 @@ function parseBinary(tokens, precedence = 0) {
         tail.unshift(op)
         return [l, tail]
       }
-
+    }
     default:
       return `expected an op, got a ${op}`
   }
@@ -90,15 +78,15 @@ function tryRestart(res) {
     case "+":
     case "-":
     case "*":
-    case "/":
+    case "/": {
       let [r, rst] = parseExpr(tail, getOpPrecedence(op))
+      let result = [Binary(op, l, r), rst]
 
-      if (rst.length != 0) {
-        let [rr, rrst] = tryRestart([r, rst])
-        return [Binary(op, l, rr), rrst]
-      }
-
-      return [Binary(op, l, r), rst]
+      if (rst.length != 0)
+        return tryRestart(result)
+      else
+        return result
+    }
     default:
       return `expected an op, got a ${op}`
   }
@@ -109,7 +97,8 @@ function parseExpr(tokens, precedence = 0) {
 }
 
 export function parse(tokens) {
-  return tryRestart(parseExpr(tokens))
+  let [tree, ,] = tryRestart(parseExpr(tokens))
+  return tree
 }
 
 // console.log(parse(lexx("1 + 2 + 3 + 4")))

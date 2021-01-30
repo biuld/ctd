@@ -5,6 +5,7 @@
       <v-col>
         <v-sheet id="tree" width="20rem" height="20rem" rounded="lg" outlined />
       </v-col>
+
       <v-spacer />
     </v-row>
   </v-container>
@@ -12,39 +13,23 @@
 
 <script>
 import json from "../assets/option.json";
+import { getParseTree } from "../core/util";
 
 export default {
   data() {
     return {
       option: json,
       chart: null,
-      chartData: [
-        {
-          name: "root",
-          children: [
-            {
-              name: "A",
-            },
-            {
-              name: "B",
-              children: [
-                {
-                  name: "G",
-                },
-                {
-                  name: "H",
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      chartData: [],
     };
   },
   methods: {
     draw: function (newData) {
       this.option.series[0].data = newData;
       this.chart.setOption(this.option);
+    },
+    setChartData: function (data) {
+      this.chartData = [data];
     },
   },
   watch: {
@@ -58,7 +43,7 @@ export default {
   mounted: function () {
     let dom = document.getElementById("tree");
     this.chart = this.$echarts.init(dom);
-    this.draw(this.chartData);
+    this.setChartData(getParseTree("1 + 2 + 3 - 4 + 5"));
   },
 };
 </script>

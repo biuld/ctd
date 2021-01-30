@@ -6,7 +6,8 @@
         "position": "bottom"
       },
       "layout": "orthogonal",
-      "orient": "TB"
+      "orient": "TB",
+      "expandAndCollapse": false
     }
   ]
 }
