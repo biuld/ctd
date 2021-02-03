@@ -100,5 +100,3 @@ export function parse(tokens) {
   let [tree, ,] = tryRestart(parseExpr(tokens))
   return tree
 }
-
-// console.log(parse(lexx("1 + 2 + 3 + 4")))

@@ -1,6 +1,6 @@
 
 
-function isDigt(c) {
+function isDigit(c) {
   return c >= '0' && c <= '9'
 }
 
@@ -17,10 +17,10 @@ function span(f = _ => true, array) {
   return [init, array.slice(init.length)]
 }
 
-// console.log(span(isDigt, ["1", "2", "#"]))
+// console.log(span(isDigit, ["1", "2", "#"]))
 
 function getInt(text) {
-  let [init, rest] = span(isDigt, text)
+  let [init, rest] = span(isDigit, text)
   return [Number.parseInt(init.join("")), rest]
 }
 
@@ -32,7 +32,7 @@ export function lexx(text, res = []) {
 
   let [h, ...tail] = text
 
-  if (isDigt(h)) {
+  if (isDigit(h)) {
     let [init, rest] = getInt(text)
     res.push(init)
     return lexx(rest, res)
