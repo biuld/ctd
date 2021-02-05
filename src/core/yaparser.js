@@ -176,4 +176,48 @@ function parsingTable() {
   return go
 }
 
-console.log(parsingTable())
+function parse(tokens, state = [0], symbol = []) {
+
+  let table = parsingTable()
+
+  while (true) {
+    let s = state[0]
+    let h = tokens.shift()
+
+    let cell = table[s][h]
+
+    if (cell == undefined) {
+      let msg = `unexpected token ${h}`
+      throw new Error(msg)
+    }
+    
+    if (cell == "acc") {
+      console.log("accepted!")
+      break
+    }
+
+    if (cell[0] == "r") {
+      let index = cell.substring(1)
+      let [left, right] = g[index]
+
+      right.forEach(_ => {
+        symbol.shift()
+        state.shift()
+      })
+
+      symbol.unshift(left)
+      let next_state = table[state[0]][left]
+      state.unshift(next_state)
+      
+      tokens.unshift(h)
+      continue
+    }
+
+    state.unshift(cell)
+    symbol.unshift(h)
+  }
+
+  return symbol[0]
+}
+
+parse(["i", "+", "i", "$"])
