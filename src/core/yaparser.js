@@ -153,9 +153,27 @@ function itemSet(init, res = [], go = {}) {
   return [res, go]
 }
 
-const init = rules("S'").map(r => prepare(r)).flatMap(r => closure(r))
+function parsingTable() {
+  const init = rules("S'").map(r => prepare(r)).flatMap(r => closure(r))
 
-// console.log(init)
-let [res, go] = itemSet(init)
-console.log(JSON.stringify(res))
-console.log(go)
+  let [res, go] = itemSet(init)
+
+  res.forEach((item, index) => {
+
+    item
+      .filter(([, right, p,]) => p == right.length)
+      .forEach(([left, right, , lhd]) => {
+        if (go[index] == undefined)
+          go[index] = {}
+
+        lhd.forEach(i => go[index][i] = `r${findIndex(g, [left, right])}`)
+
+        if (left == "S'")
+          go[index]['$'] = "acc"
+      })
+  })
+
+  return go
+}
+
+console.log(parsingTable())
