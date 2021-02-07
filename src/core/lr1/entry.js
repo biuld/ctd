@@ -3,6 +3,29 @@ import { parse } from './parser.js'
 
 export const tryParse = text => parse(lexx(text))
 
-console.log(tryParse("1 * 2 + 3 - 4 / 5"))
+export const parseTree = text => convert(tryParse(text))
 
-// export const parseTree = text => undefined
+function convert(e) {
+  switch (e.label) {
+    case "expr":
+      return {
+        name: "expr",
+        children: e.value.map(convert)
+      }
+    case "term":
+      return {
+        name: "term",
+        children: e.value.map(convert)
+      }
+    case "factor": {
+      return {
+        name: "factor",
+        children: [{ name: e.value }]
+      }
+    }
+    default:
+      return {
+        name: e.label
+      }
+  }
+}
