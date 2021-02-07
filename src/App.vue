@@ -11,20 +11,20 @@
     </v-app-bar>
 
     <v-main class="brown lighten-5">
-      <tree />
+      <ll1 />
     </v-main>
   </v-app>
 </template>
 
 <script>
 import AppDrawer from "./components/AppDrawer";
-import Tree from "./components/Tree";
+import LL1 from "./components/LL1";
 
 export default {
   name: "App",
   components: {
     "app-drawer": AppDrawer,
-    tree: Tree,
+    ll1: LL1,
   },
   data: () => ({
     drawer: true,

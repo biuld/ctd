@@ -13,26 +13,27 @@
 
 <script>
 import json from "../assets/option.json";
+import _ from "lodash";
 
 export default {
+  props: {
+    tokens: Object,
+  },
   data() {
     return {
       option: json,
       chart: null,
-      chartData: [],
     };
   },
   methods: {
-    draw: function (newData) {
-      this.option.series[0].data = newData;
+    draw: _.debounce(function (newData) {
+      this.option.series[0].data = [newData];
+      this.chart.clear()
       this.chart.setOption(this.option);
-    },
-    setChartData: function (data) {
-      this.chartData = [data];
-    },
+    }, 500),
   },
   watch: {
-    chartData: {
+    tokens: {
       deep: true,
       handler: function (val) {
         this.draw(val);
@@ -42,6 +43,7 @@ export default {
   mounted: function () {
     let dom = document.getElementById("tree");
     this.chart = this.$echarts.init(dom);
+    this.draw(this.tokens)
   },
 };
 </script>
