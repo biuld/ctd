@@ -1,3 +1,4 @@
+import { Generator } from './generator'
 
 const T = ["i", "+"]
 const NT = ["E", "OP"]
@@ -8,207 +9,104 @@ const g = [
   ["E", ["i"]]
 ]
 
-// const T = ["a", "b", "c", "d", "e"]
-// const NT = ["S", "A"]
-// const g = [
-//   ["S'", ["S"]],
-//   ["S", ["a", "A", "d"]],
-//   ["S", ["b", "A", "c"]],
-//   ["S", ["a", "e", "c"]],
-//   ["S", ["b", "e", "d"]],
-//   ["A", ["e"]]
-// ]
-
-function rules(left) {
-  return g.filter(r => r[0] == left)
-}
-
-function first(token, res = [], visited = []) {
-
-  if (token == undefined)
-    return undefined
-
-  let not_visit = [token]
-
-  while (not_visit.length != 0) {
-    let head = not_visit.shift()
-
-    if (T.includes(head) && !res.includes(head)) {
-      res.push(head)
-      continue
+// highly couple with the grammar
+function symbol_reduce(cell, symbol) {
+  switch (cell) {
+    case "r1": {
+      let [r, op, l] = symbol.splice(0, 3)
+      symbol.unshift(E(op, l, r))
+      break
     }
-
-    visited.push(head)
-
-    rules(head)
-      .map(([, right]) => right[0])
-      .filter(t => !visited.includes(t))
-      .forEach(t => not_visit.push(t))
-  }
-
-  return res
-}
-
-function prepare(rule, LHD = ["$"], P = 0) {
-  let [left, right, p, lhd] = rule
-
-  if (p == undefined)
-    p = P
-  else if (p < right.length)
-    p = p + 1
-
-  if (lhd == undefined)
-    lhd = LHD
-
-  return [left, right, p, lhd]
-}
-
-function closure(rule, res = []) {
-  let not_visit = [rule]
-
-  while (not_visit.length != 0) {
-
-    let head = not_visit.shift()
-
-    if (!res.find(e => e.join() == head.join()))
-      res.push(head)
-
-    let [, right, p, ,] = head
-
-    if (p == right.length)
-      continue
-
-    if (NT.includes(right[p])) {
-      rules(right[p])
-        .map(r => prepare(r, first(right[p + 1])))
-        .filter(r => !res.find(e => e.join() == r.join()))
-        .forEach(r => not_visit.push(r))
+    case "r2":
+      break
+    case "r3": {
+      let i = symbol.shift()
+      symbol.unshift(Ei(i))
+      break
     }
   }
-
-  return res
 }
 
-function nextItems(c) {
-  let item = c.reduce((acc, cur) => {
-    let [, right, p] = cur
-
-    if (p == right.length)
-      return acc
-
-    let key = right[p]
-
-    if (acc[key] == undefined) {
-      acc[key] = []
-    }
-
-    acc[key].push(prepare(cur))
-
-    return acc
-  }, {})
-
-  Object.keys(item).forEach(k => {
-    item[k] = item[k].flatMap(kernel => closure(kernel))
-      .reduce((acc, cur) => {
-        if (!acc.find(e => e.join() == cur.join()))
-          acc.push(cur)
-        return acc
-      }, [])
-  })
-
-  return item
-}
-
-function findIndex(res, item) {
-  return res.map(e => e.join()).indexOf(item.join())
-}
-
-function itemSet(init, res = [], go = {}) {
-
-  let not_visit = [init]
-
-  while (not_visit.length != 0) {
-
-    let head = not_visit.shift()
-    res.push(head)
-    let no = res.length - 1
-
-    Object.entries(nextItems(head))
-      .map(([token, item], index) => {
-        if (go[no] == undefined)
-          go[no] = {}
-
-        let i = findIndex(res, item)
-
-        if (i == -1)
-          i = res.length + not_visit.length + index
-
-        Object.assign(go[no], { [token]: i })
-
-        return item
-      }).filter(item => !res.find(s => s.join() == item.join()))
-      .forEach(item => not_visit.push(item))
+//highly couple with the grammar
+function state_reduce(cell, state, table) {
+  switch (cell) {
+    case "r1":
+      state.splice(0, 3)
+      state.unshift(table[state[0]]["E"])
+      break
+    case "r2":
+      state.shift()
+      state.unshift(table[state[0]]["OP"])
+      break
+    case "r3":
+      state.shift()
+      state.unshift(table[state[0]]["E"])
+      break
   }
-
-  return [res, go]
 }
 
-function parsingTable() {
-  const init = rules("S'").map(r => prepare(r)).flatMap(r => closure(r))
-
-  let [res, go] = itemSet(init)
-
-  res.forEach((item, index) => {
-
-    item
-      .filter(([, right, p,]) => p == right.length)
-      .forEach(([left, right, , lhd]) => {
-        if (go[index] == undefined)
-          go[index] = {}
-
-        lhd.forEach(i => go[index][i] = `r${findIndex(g, [left, right])}`)
-
-        if (left == "S'")
-          go[index]['$'] = "acc"
-      })
-  })
-
-  return go
+export function i(number) {
+  return {
+    type: "i",
+    label: "i",
+    value: number
+  }
 }
 
-function parse(tokens, state = [0], symbol = []) {
+export function OP(op) {
+  return {
+    type: "OP",
+    label: op,
+    value: op
+  }
+}
 
-  let table = parsingTable()
+function E(op, l, r) {
+  return {
+    type: "E",
+    label: "E",
+    value: {
+      lhs: l,
+      op: op,
+      rhs: r
+    }
+  }
+}
 
-  while (true) {
+function Ei(i) {
+  return {
+    type: "E",
+    label: "E",
+    value: i
+  }
+}
+
+export function parse(tokens, state = [0], symbol = []) {
+
+  let gen = new Generator(g, T, NT)
+  let table = gen.parsingTable
+
+  console.log(table)
+
+  for (;;) {
     let s = state[0]
     let h = tokens.shift()
 
-    let cell = table[s][h]
+    let cell = table[s][h.label]
 
     if (cell == undefined) {
       let msg = `unexpected token ${h}`
       throw new Error(msg)
     }
-    
+
     if (cell == "acc") {
       console.log("accepted!")
       break
     }
 
     if (cell[0] == "r") {
-      let index = cell.substring(1)
-      let [left, right] = g[index]
-
-      right.forEach(_ => {
-        symbol.shift()
-        state.shift()
-      })
-
-      symbol.unshift(left)
-      let next_state = table[state[0]][left]
-      state.unshift(next_state)
-      
+      symbol_reduce(cell, symbol)
+      state_reduce(cell, state, table)
       tokens.unshift(h)
       continue
     }
@@ -219,5 +117,3 @@ function parse(tokens, state = [0], symbol = []) {
 
   return symbol[0]
 }
-
-parse(["i", "+", "i", "$"])
