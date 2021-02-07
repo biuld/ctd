@@ -1,4 +1,27 @@
-import { getInt, isDigit, } from '../util'
+
+function isDigit(c) {
+  return c >= '0' && c <= '9'
+}
+
+function span(f = _ => true, array) {
+  let init = []
+
+  for (const e of array) {
+    if (f(e))
+      init.push(e)
+    else
+      break
+  }
+
+  return [init, array.slice(init.length)]
+}
+
+// console.log(span(isDigit, ["1", "2", "#"]))
+
+function getInt(text) {
+  let [init, rest] = span(isDigit, text)
+  return [Number.parseInt(init.join("")), rest]
+}
 
 export function lexx(text, res = []) {
 

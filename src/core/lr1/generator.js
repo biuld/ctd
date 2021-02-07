@@ -3,10 +3,10 @@ export class Generator {
   NT = []
   g = []
 
-  constructor(g, T, NT) {
-    this.NT = NT
-    this.T = T
-    this.g = g
+  constructor(grammar) {
+    this.NT = grammar.NT
+    this.T = grammar.T
+    this.g = grammar.g
   }
 
   rules(left) {
@@ -47,7 +47,7 @@ export class Generator {
     else if (p < right.length)
       p = p + 1
 
-    if (lhd == undefined)
+    if (lhd == undefined || lhd.length == 0)
       lhd = LHD
 
     return [left, right, p, lhd]
@@ -63,14 +63,19 @@ export class Generator {
       if (!res.find(e => e.join() == head.join()))
         res.push(head)
 
-      let [, right, p, ,] = head
+      let [, right, p, llhd] = head
 
       if (p == right.length)
         continue
 
       if (this.NT.includes(right[p])) {
+
+        let lhd = [].concat(this.first(right[p + 1]))
+          .concat(llhd)
+          .filter(e => e != undefined)
+
         this.rules(right[p])
-          .map(r => this.prepare(r, this.first(right[p + 1])))
+          .map(r => this.prepare(r, lhd))
           .filter(r => !res.find(e => e.join() == r.join()))
           .forEach(r => not_visit.push(r))
       }
@@ -149,7 +154,6 @@ export class Generator {
     let [res, go] = this.itemSet(init)
 
     res.forEach((item, index) => {
-
       item
         .filter(([, right, p,]) => p == right.length)
         .forEach(([left, right, , lhd]) => {
@@ -162,6 +166,7 @@ export class Generator {
             go[index]['$'] = "acc"
         })
     })
+    // console.log(JSON.stringify(res))
     return go
   }
 }

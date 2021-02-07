@@ -1,5 +1,18 @@
-import { lexx as ll1lexx } from '../ll1/lexer'
-import { i, OP } from './parser'
+import { lexx as ll1lexx } from '../ll1/lexer.js'
+
+function i(number) {
+  return {
+    label: "i",
+    value: number
+  }
+}
+
+function raw(c) {
+  return {
+    label: c,
+    value: c
+  }
+}
 
 
 export function lexx(text) {
@@ -7,23 +20,10 @@ export function lexx(text) {
 
   res.push("$")
 
-  return res.map(e => {
-    if (typeof e == "number") {
-      return i(e)
-    }
-
-    switch (e) {
-      case "+":
-      case "-":
-      case "*":
-      case "/":
-        return OP(e)
-      case "$":
-        return {
-          type: "$",
-          label: "$",
-          value: "$"
-        }
-    }
+  return res.map(c => {
+    if (typeof c == "number")
+      return i(c)
+    else
+      return raw(c)
   })
 }

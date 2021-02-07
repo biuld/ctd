@@ -13,7 +13,6 @@
 
 <script>
 import json from "../assets/option.json";
-import { getLL1ParseTree } from "../core/util";
 
 export default {
   data() {
@@ -43,7 +42,6 @@ export default {
   mounted: function () {
     let dom = document.getElementById("tree");
     this.chart = this.$echarts.init(dom);
-    this.setChartData(getLL1ParseTree("1 + 2 + 3 - 4 + 5"));
   },
 };
 </script>
