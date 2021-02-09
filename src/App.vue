@@ -1,35 +1,33 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" app>
+    <v-navigation-drawer v-model="drawer" app clipped>
       <app-drawer @selectedText="setTitle" :title="defaultTitle" />
     </v-navigation-drawer>
 
-    <v-app-bar app>
+    <v-app-bar app color="grey darken-4" dark clipped-left>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>{{ title }}</v-toolbar-title>
     </v-app-bar>
 
-    <v-main class="brown lighten-5">
-      <ll1 />
-    </v-main>
+      <derivation />
   </v-app>
 </template>
 
 <script>
 import AppDrawer from "./components/AppDrawer";
-import LL1 from "./components/LL1";
+import Derivation from "./components/ct1/Derivation";
 
 export default {
   name: "App",
   components: {
     "app-drawer": AppDrawer,
-    ll1: LL1,
+    derivation: Derivation,
   },
   data: () => ({
     drawer: true,
-    defaultTitle: "Application",
-    title: "Application",
+    defaultTitle: "Compiling Theory Demonstration",
+    title: "Compiling Theory Demonstration",
   }),
   methods: {
     setTitle(val) {

@@ -3,7 +3,7 @@
     <v-row>
       <v-spacer />
       <v-col>
-        <v-sheet id="tree" width="20rem" height="20rem" rounded="lg" outlined />
+        <v-sheet :id="id" width="20rem" height="20rem" rounded="lg" outlined />
       </v-col>
 
       <v-spacer />
@@ -13,11 +13,11 @@
 
 <script>
 import json from "../assets/option.json";
-import _ from "lodash";
 
 export default {
   props: {
     tokens: Object,
+    id: String,
   },
   data() {
     return {
@@ -26,11 +26,11 @@ export default {
     };
   },
   methods: {
-    draw: _.debounce(function (newData) {
+    draw: function (newData) {
       this.option.series[0].data = [newData];
-      this.chart.clear()
+      this.chart.clear();
       this.chart.setOption(this.option);
-    }, 500),
+    },
   },
   watch: {
     tokens: {
@@ -41,9 +41,9 @@ export default {
     },
   },
   mounted: function () {
-    let dom = document.getElementById("tree");
+    let dom = document.getElementById(this.id);
     this.chart = this.$echarts.init(dom);
-    this.draw(this.tokens)
+    this.draw(this.tokens);
   },
 };
 </script>

@@ -3,6 +3,7 @@ function isDigit(c) {
   return c >= '0' && c <= '9'
 }
 
+/* eslint-disable no-unused-vars */
 function span(f = _ => true, array) {
   let init = []
 
@@ -15,6 +16,7 @@ function span(f = _ => true, array) {
 
   return [init, array.slice(init.length)]
 }
+/* eslint-disable no-unused-vars */
 
 // console.log(span(isDigit, ["1", "2", "#"]))
 
