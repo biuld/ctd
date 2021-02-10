@@ -129,20 +129,21 @@ export class Generator {
       let no = res.length - 1
 
       Object.entries(this.nextItems(head))
-        .map(([token, item], index) => {
+        .forEach(([token, item]) => {
+          let index = res.concat(not_visit)
+            .map(e => e.join())
+            .indexOf(item.join())
+
+          if (index == -1) {
+            not_visit.push(item)
+            index = no + not_visit.length
+          }
+
           if (go[no] == undefined)
             go[no] = {}
 
-          let i = Generator.findIndex(res, item)
-
-          if (i == -1)
-            i = res.length + not_visit.length + index
-
-          Object.assign(go[no], { [token]: i })
-
-          return item
-        }).filter(item => !res.find(s => s.join() == item.join()))
-        .forEach(item => not_visit.push(item))
+          go[no][token] = index
+        })
     }
 
     return [res, go]

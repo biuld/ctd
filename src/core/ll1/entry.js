@@ -1,5 +1,5 @@
-import { lexx } from './lexer'
-import { parse } from './parser'
+import { lexx } from './lexer.js'
+import { parse } from './parser.js'
 
 export const tryParse = text => parse(lexx(text))
 
