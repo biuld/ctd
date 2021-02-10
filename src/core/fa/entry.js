@@ -50,13 +50,19 @@ function determine(m) {
       .forEach(i => {
         let next = e_closure(move(h, i, m), m)
 
-        if (!nk.find(e => e.join() == next.join()))
+        let index = nk.concat(not_visit)
+          .map(e => e.join())
+          .indexOf(next.join())
+          
+        if (index == -1) {
           not_visit.push(next)
+          index = id + not_visit.length
+        }
 
         if (nf[id] == undefined)
           nf[id] = {}
 
-        nf[id][i] = findIndex(nk.concat(not_visit), next)
+        nf[id][i] = index
       })
   }
 
