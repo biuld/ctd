@@ -30,12 +30,7 @@ function move(s, t, m,) {
 
 // console.log(move(e_closure(0, m), "a", m))
 
-function findIndex(res, item) {
-  return res.map(e => e.join()).indexOf(item.join())
-}
-
 function determine(m) {
-
   let not_visit = [e_closure(m.S, m)]
   let nk = []
   let nf = {}

@@ -36,7 +36,9 @@ export default {
   data: function () {
     return {
       input: "",
-      content: "1 + 2 * 3 - 4 / 5",
+      // TODO fix not correct precedence between plus and minus, 
+      // right now it's always right associate 
+      content: "1 - 2 * 3 + 4 / 5",
     };
   },
   methods: {

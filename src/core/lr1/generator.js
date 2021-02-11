@@ -60,24 +60,24 @@ export class Generator {
 
       let head = not_visit.shift()
 
-      if (!res.find(e => e.join() == head.join()))
+      if (!res.find(e => e.join() == head.join())) {
         res.push(head)
 
-      let [, right, p, llhd] = head
+        let [, right, p, llhd] = head
 
-      if (p == right.length)
-        continue
+        if (p == right.length)
+          continue
 
-      if (this.NT.includes(right[p])) {
+        if (this.NT.includes(right[p])) {
 
-        let lhd = [].concat(this.first(right[p + 1]))
-          .concat(llhd)
-          .filter(e => e != undefined)
+          let lhd = [].concat(this.first(right[p + 1]))
+            .concat(llhd)
+            .filter(e => e != undefined)
 
-        this.rules(right[p])
-          .map(r => this.prepare(r, lhd))
-          .filter(r => !res.find(e => e.join() == r.join()))
-          .forEach(r => not_visit.push(r))
+          this.rules(right[p])
+            .map(r => this.prepare(r, lhd))
+            .forEach(r => not_visit.push(r))
+        }
       }
     }
 
