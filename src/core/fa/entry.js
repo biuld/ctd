@@ -1,4 +1,4 @@
-import { m } from './nfa.js'
+// import { m } from './nfa.js'
 
 function e_closure(s, m, res = []) {
   let not_visit = [].concat(s)
@@ -30,7 +30,7 @@ function move(s, t, m,) {
 
 // console.log(move(e_closure(0, m), "a", m))
 
-function determine(m) {
+export function determine(m) {
   let not_visit = [e_closure(m.S, m)]
   let nk = []
   let nf = {}
@@ -48,7 +48,7 @@ function determine(m) {
         let index = nk.concat(not_visit)
           .map(e => e.join())
           .indexOf(next.join())
-          
+
         if (index == -1) {
           not_visit.push(next)
           index = id + not_visit.length
@@ -57,16 +57,56 @@ function determine(m) {
         if (nf[id] == undefined)
           nf[id] = {}
 
-        nf[id][i] = index
+        if (nf[id][i] == undefined)
+          nf[id][i] = []
+
+        nf[id][i].push(index)
       })
   }
 
   let nm = { ...m }
   nm.K = [...Array(nk.length).keys()]
   nm.f = nf
-  nm.Z = nk.length - 1
+  nm.Z = [nk.length - 1]
 
   return nm
 }
 
-console.log(determine(m))
+// console.log(determine(m))
+
+export function convert(m) {
+
+  let nodes = m.K.map(i => {
+    if (i == m.S)
+      return {
+        name: i,
+        symbol: "triangle"
+      }
+    else if (m.Z.includes(i))
+      return {
+        name: i,
+        symbol: "rectangle"
+      }
+    else
+      return {
+        name: i
+      }
+  })
+
+  let links = Object.entries(m.f).reduce((acc, [s, dest]) => {
+    Object.entries(dest).flatMap(([edge, targets]) =>
+      targets.map(t => {
+        return {
+          source: `${s}`,
+          target: `${t}`,
+          value: edge,
+        }
+      })).forEach(l => acc.push(l))
+    return acc
+  }, [])
+
+  return {
+    data: nodes,
+    links: links
+  }
+}

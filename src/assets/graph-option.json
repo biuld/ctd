@@ -1,0 +1,28 @@
+{
+  "title": {},
+  "tooltip": {},
+  "animationDurationUpdate": 1500,
+  "animationEasingUpdate": "quinticInOut",
+  "series": [
+    {
+      "layout": "circular",
+      "type": "graph",
+      "symbolSize": 30,
+      "roam": true,
+      "label": {
+        "show": true
+      },
+      "edgeSymbol": [
+        "circle",
+        "arrow"
+      ],
+      "edgeSymbolSize": [
+        4,
+        10
+      ],
+      "edgeLabel": {
+        "fontSize": 20
+      }
+    }
+  ]
+}

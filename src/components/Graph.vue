@@ -12,28 +12,31 @@
 </template>
 
 <script>
-import json from "../assets/tree-option.json";
+import json from "../assets/graph-option.json";
+import { m } from "../core/fa/nfa";
+import { convert, determine } from "../core/fa/entry";
 
 export default {
   props: {
-    tokens: Object,
+    // fa: Object,
     id: String,
   },
   data() {
     return {
       option: json,
       chart: null,
+      fa: convert(determine(m)),
     };
   },
   methods: {
-    draw: function (newData) {
-      this.option.series[0].data = [newData];
+    draw: function (fa) {
+      Object.assign(this.option.series[0], fa);
       this.chart.clear();
       this.chart.setOption(this.option);
     },
   },
   watch: {
-    tokens: {
+    fa: {
       deep: true,
       handler: function (val) {
         this.draw(val);
@@ -43,7 +46,7 @@ export default {
   mounted: function () {
     let dom = document.getElementById(this.id);
     this.chart = this.$echarts.init(dom);
-    this.draw(this.tokens);
+    this.draw(this.fa);
   },
 };
 </script>
