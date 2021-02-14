@@ -2,11 +2,17 @@ export class Generator {
   T = []
   NT = []
   g = []
+  firstSet = {}
 
   constructor(grammar) {
     this.NT = grammar.NT
     this.T = grammar.T
     this.g = grammar.g
+
+    this.firstSet = grammar.NT.reduce((acc, e) => {
+      acc[e] = this.first(e)
+      return acc
+    }, {})
   }
 
   rules(left) {
@@ -39,18 +45,75 @@ export class Generator {
     return res
   }
 
-  prepare(rule, LHD = ["$"], P = 0) {
+  follow(item, res = {}, record = {}) {
+
+    item.forEach(([left, right]) => {
+      let end = right[right.length - 1]
+
+      if (this.NT.includes(end)) {
+        if (record[end] == undefined)
+          record[end] = []
+
+        if (!record[end].includes(left) && end != left)
+          record[end].push(left)
+      }
+    })
+
+    let [ls, rs] = item.reduce((acc, e) => {
+      let [left, right] = e
+      acc[0].push(left)
+      acc[1].push([...right])
+      return acc
+    }, [[], []])
+
+    ls.forEach(l => {
+      if (res[l] == undefined)
+        res[l] = []
+
+      rs.forEach(r => {
+        while (r.length != 0) {
+          let index = r.indexOf(l)
+
+          if (index == -1 || index == r.length - 1)
+            break
+
+          r.splice(0, index + 1)
+
+          if (this.T.includes(r[0]))
+            res[l].push(r[0])
+          else
+            res[l].push(this.firstSet[r[0]])
+        }
+      })
+
+      if (!res[l].includes("$")) {
+        res[l].unshift("$")
+      }
+    })
+
+    Object.entries(record).forEach(([child, ps]) =>
+      ps.flatMap(p => res[p])
+        .forEach(t => {
+          if (res[child] == undefined)
+            res[child] = []
+
+          if (!res[child].includes(t))
+            res[child].push(t)
+        })
+    )
+
+    return res
+  }
+
+  forward(rule) {
     let [left, right, p, lhd] = rule
 
     if (p == undefined)
-      p = P
+      p = 0
     else if (p < right.length)
       p = p + 1
 
-    if (lhd == undefined || lhd.length == 0)
-      lhd = LHD
-
-    return [left, right, p, lhd]
+    return [left, right, p, lhd].filter(e => e != undefined)
   }
 
   closure(rule, res = []) {
@@ -63,23 +126,30 @@ export class Generator {
       if (!res.find(e => e.join() == head.join())) {
         res.push(head)
 
-        let [, right, p, llhd] = head
+        let [, right, p] = head
 
         if (p == right.length)
           continue
 
         if (this.NT.includes(right[p])) {
-
-          let lhd = [].concat(this.first(right[p + 1]))
-            .concat(llhd)
-            .filter(e => e != undefined)
-
           this.rules(right[p])
-            .map(r => this.prepare(r, lhd))
+            .map(r => this.forward(r))
             .forEach(r => not_visit.push(r))
         }
       }
     }
+
+    let followSet = this.follow(res)
+    res.forEach(r => {
+      let [, , , lhd] = r
+
+      if (lhd == undefined)
+        r.push(followSet[r[0]])
+      else
+        followSet[r[0]]
+          .filter(t => !lhd.includes(t))
+          .forEach(t => lhd.push(t))
+    })
 
     return res
   }
@@ -97,7 +167,7 @@ export class Generator {
         acc[key] = []
       }
 
-      acc[key].push(this.prepare(cur))
+      acc[key].push(this.forward(cur))
 
       return acc
     }, {})
@@ -150,7 +220,7 @@ export class Generator {
   }
 
   get parsingTable() {
-    const init = this.rules("S'").map(r => this.prepare(r)).flatMap(r => this.closure(r))
+    const init = this.rules("S'").map(r => this.forward(r)).flatMap(r => this.closure(r))
 
     let [res, go] = this.itemSet(init)
 

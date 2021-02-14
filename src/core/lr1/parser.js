@@ -12,9 +12,9 @@ export function parse(tokens, state = [0], symbol = []) {
     let s = state[0]
     let h = tokens.shift()
 
+    // console.log(`s: ${s}, h:${h.value}`)
     let cell = table[s][h.label]
 
-    // console.log(`s: ${s}, h:${h.value}`)
     if (cell == undefined) {
       let msg = `unexpected token ${h.value} at ${s}`
       throw new Error(msg)

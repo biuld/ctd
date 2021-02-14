@@ -3,11 +3,11 @@ export class Grammar {
   NT = ["expr", "term", "factor"]
   g = [
     ["S'", ["expr"]],
-    ["expr", ["term", "+", "expr"]],
-    ["expr", ["term", "-", "expr"]],
+    ["expr", ["expr", "+", "term"]],
+    ["expr", ["expr", "-", "term"]],
     ["expr", ["term"]],
-    ["term", ["factor", "*", "term"]],
-    ["term", ["factor", "/", "term"]],
+    ["term", ["term", "*", "factor"]],
+    ["term", ["term", "/", "factor"]],
     ["term", ["factor"]],
     ["factor", ["i"]],
   ]
