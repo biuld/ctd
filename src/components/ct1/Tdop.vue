@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title>LL(1) parser</v-card-title>
     <v-card-text>
-      <tree :tokens="tokens" id="ll1" />
+      <tree :tokens="tokens" id="tdop" />
     </v-card-text>
     <v-card-actions>
       <v-container>
@@ -25,11 +25,11 @@
 
 <script>
 import Tree from "../Tree";
-import { parseTree } from "../../core/ll1/entry";
+import { parseTree } from "../../core/tdop/entry";
 import _ from "lodash";
 
 export default {
-  name: "LL1",
+  name: "Tdop",
   components: {
     tree: Tree,
   },
