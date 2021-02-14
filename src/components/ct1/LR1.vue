@@ -25,7 +25,7 @@
 
 <script>
 import Tree from "../Tree";
-import { parseTree } from "../../core/lr1/entry";
+import { parseTree, table } from "../../core/lr1/entry";
 import _ from "lodash";
 
 export default {
@@ -36,9 +36,10 @@ export default {
   data: function () {
     return {
       input: "",
-      // TODO fix not correct precedence between plus and minus, 
-      // right now it's always right associate 
+      // TODO fix not correct precedence between plus and minus,
+      // right now it's always right associate
       content: "1 - 2 * 3 + 4 / 5",
+      table: table,
     };
   },
   methods: {

@@ -1,12 +1,5 @@
-import { Generator } from './generator.js'
-import { Grammar } from './grammar.js'
 
-export function parse(tokens, state = [0], symbol = []) {
-
-  let gram = new Grammar()
-  let gen = new Generator(gram)
-  let table = gen.parsingTable
-  // console.log(table)
+export function parse(tokens, gram ,table, state = [0], symbol = []) {
 
   for (; ;) {
     let s = state[0]
