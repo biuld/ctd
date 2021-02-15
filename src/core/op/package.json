@@ -1,7 +1,7 @@
 {
   "name": "ll1",
   "version": "1.0.0",
-  "description": "LL(1) parser",
+  "description": "Operator Precedence parser",
   "main": "entry.js",
   "type": "module",
   "scripts": {

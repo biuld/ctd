@@ -43,6 +43,7 @@ function parseFigure(tokens) {
     return `expected a number, got ${h}`
 }
 
+// precedence climbing
 function parseBinary(tokens, precedence = 0) {
   let [l, [op, ...tail]] = parseFigure(tokens)
 

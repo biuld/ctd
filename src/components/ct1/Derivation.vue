@@ -20,7 +20,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="4"><tdop /></v-col>
+        <v-col cols="4"><op /></v-col>
         <v-col>
           <div class="text-subtitle-1">最左推导：</div>
           <div class="text-subtitle-1">每一步替换最左边的非终结符</div>
@@ -53,13 +53,13 @@
 </template>
 
 <script>
-import Tdop from "./Tdop";
+import Op from "./Op";
 import LR1 from "./LR1";
 
 export default {
   name: "Derivation",
   components: {
-    tdop: Tdop,
+    op: Op,
     lr1: LR1,
   },
   data: function () {

@@ -1,4 +1,4 @@
-import { lexx as ll1lexx } from '../tdop/lexer.js'
+import { lexx as ll1lexx } from '../op/lexer.js'
 
 function i(number) {
   return {
