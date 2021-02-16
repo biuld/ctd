@@ -1,7 +1,7 @@
 import { lexx } from './lexer.js'
 import { parse } from './parser.js'
 import { Generator } from './generator.js'
-import { Grammar } from './grammar.js'
+import { Grammar } from '../common/grammar.js'
 
 const grammar = new Grammar()
 const generator = new Generator(grammar)

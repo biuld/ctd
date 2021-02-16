@@ -1,25 +1,17 @@
 export class Generator {
-  T = []
-  NT = []
-  g = []
+  gram
   firstSet = {}
   followSet = {}
 
   constructor(grammar) {
-    this.NT = grammar.NT
-    this.T = grammar.T
-    this.g = grammar.g
+    this.gram = grammar
 
-    this.firstSet = this.NT.reduce((acc, t) => {
+    this.firstSet = grammar.NT.reduce((acc, t) => {
       acc[t] = this.first(t)
       return acc
     }, {})
 
-    this.followSet = this.follow(this.g)
-  }
-
-  rules(left) {
-    return this.g.filter(r => r[0] == left)
+    this.followSet = this.follow(grammar.g)
   }
 
   first(token, res = [], visited = []) {
@@ -32,14 +24,14 @@ export class Generator {
     while (not_visit.length != 0) {
       let head = not_visit.shift()
 
-      if (this.T.includes(head) && !res.includes(head)) {
+      if (this.gram.T.includes(head) && !res.includes(head)) {
         res.push(head)
         continue
       }
 
       visited.push(head)
 
-      this.rules(head)
+      this.gram.rules(head)
         .map(([, right]) => right[0])
         .filter(t => !visited.includes(t))
         .forEach(t => not_visit.push(t))
@@ -53,7 +45,7 @@ export class Generator {
     item.forEach(([left, right]) => {
       let end = right[right.length - 1]
 
-      if (this.NT.includes(end)) {
+      if (this.gram.NT.includes(end)) {
         if (record[end] == undefined)
           record[end] = []
 
@@ -82,7 +74,7 @@ export class Generator {
 
           r.splice(0, index + 1)
 
-          if (this.T.includes(r[0]))
+          if (this.gram.T.includes(r[0]))
             res[l].push(r[0])
           else
             res[l].push(this.firstSet[r[0]])

@@ -1,4 +1,4 @@
-import { lexx as ll1lexx } from '../op/lexer.js'
+import { lexx as glexx } from '../common/lexer.js'
 
 function i(number) {
   return {
@@ -16,7 +16,7 @@ function raw(c) {
 
 
 export function lexx(text) {
-  let res = ll1lexx(text)
+  let res = glexx(text)
 
   res.push("$")
 

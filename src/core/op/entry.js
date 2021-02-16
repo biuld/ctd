@@ -1,4 +1,4 @@
-import { lexx } from './lexer.js'
+import { lexx } from '../common/lexer.js'
 import { parse } from './parser.js'
 
 export const tryParse = text => parse(lexx(text))

@@ -1,4 +1,4 @@
-import { Grammar } from '../lr1/grammar.js'
+import { Grammar } from '../common/grammar.js'
 import { Generator } from './generator.js'
 
 const grammar = new Grammar()

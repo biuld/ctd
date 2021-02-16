@@ -1,22 +1,14 @@
 export class Generator {
-  T = []
-  NT = []
-  g = []
   firstSet = {}
+  gram
 
   constructor(grammar) {
-    this.NT = grammar.NT
-    this.T = grammar.T
-    this.g = grammar.g
+    this.gram = grammar
 
     this.firstSet = grammar.NT.reduce((acc, e) => {
       acc[e] = this.first(e)
       return acc
     }, {})
-  }
-
-  rules(left) {
-    return this.g.filter(r => r[0] == left)
   }
 
   first(token, res = [], visited = []) {
@@ -29,14 +21,14 @@ export class Generator {
     while (not_visit.length != 0) {
       let head = not_visit.shift()
 
-      if (this.T.includes(head) && !res.includes(head)) {
+      if (this.gram.T.includes(head) && !res.includes(head)) {
         res.push(head)
         continue
       }
 
       visited.push(head)
 
-      this.rules(head)
+      this.gram.rules(head)
         .map(([, right]) => right[0])
         .filter(t => !visited.includes(t))
         .forEach(t => not_visit.push(t))
@@ -74,14 +66,14 @@ export class Generator {
         if (p == right.length)
           continue
 
-        if (this.NT.includes(right[p])) {
+        if (this.gram.NT.includes(right[p])) {
 
           let lhd = this.first(right[p + 1])
 
           if (lhd == undefined || lhd.length == 0)
             lhd = plhd
 
-          this.rules(right[p])
+          this.gram.rules(right[p])
             .map(r => this.prepare(r, lhd))
             .forEach(r => not_visit.push(r))
         }
@@ -157,7 +149,7 @@ export class Generator {
   }
 
   get parsingTable() {
-    const init = this.rules("S'").map(r => this.prepare(r)).flatMap(r => this.closure(r))
+    const init = this.gram.rules("S'").map(r => this.prepare(r)).flatMap(r => this.closure(r))
 
     let [res, go] = this.itemSet(init)
 
@@ -171,7 +163,7 @@ export class Generator {
           if (go[index] == undefined)
             go[index] = {}
 
-          lhd.forEach(i => go[index][i] = `r${Generator.findIndex(this.g, [left, right])}`)
+          lhd.forEach(i => go[index][i] = `r${Generator.findIndex(this.gram.g, [left, right])}`)
 
           if (left == "S'")
             go[index]['$'] = "acc"
