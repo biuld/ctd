@@ -24,6 +24,15 @@ export class Grammar {
     return this.g.filter(r => r[0] === left)
   }
 
+  remove(rule) {
+    let index = this.g.map(e => e.join()).indexOf(rule.join())
+    this.g.splice(index, 1)
+  }
+
+  contains(rule) {
+    return this.g.find(e => e.join() === rule.join())
+  }
+
   replace(key, value) {
     let neo = new Grammar()
     neo[key] = value

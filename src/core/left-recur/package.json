@@ -1,0 +1,12 @@
+{
+  "name": "left-recur",
+  "version": "1.0.0",
+  "description": "Left recursion elimination",
+  "main": "entry.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
