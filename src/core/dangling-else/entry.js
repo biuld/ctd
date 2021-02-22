@@ -1,5 +1,5 @@
 
-export function lexx(text) {
+function lexx(text) {
   return text.split(/[\s\(\)]+/).filter(e => e != "")
 }
 
@@ -14,7 +14,7 @@ function token_check(expected, got) {
   }
 }
 
-export function parse(tokens) {
+function parse(tokens) {
   let [if_token, id, , ...tail] = tokens
   if (if_token === "if") {
     let next
@@ -37,6 +37,26 @@ export function parse(tokens) {
     return tokens
 }
 
+function convert(t) {
+  switch (typeof t) {
+    case "string":
+      return { name: t }
+    case "object": {
+      let [id, l, r] = t
+      return {
+        name: id,
+        children: [
+          convert(l),
+          convert(r)
+        ].filter(e => e != null)
+      }
+    }
+  }
+}
+
+export const tryParse = text => parse(lexx(text))[0]
+
+export const parseTree = text => convert(tryParse(text))
 
 let text = [
   "if true then A else B",
@@ -47,4 +67,5 @@ let text = [
   "if true then (if true then A else B) else (if true then C else D)"
 ]
 
-text.map(t => JSON.stringify(parse(lexx(t)))).forEach(e => console.log(e))
+text.map(t => tryParse(t)).map(JSON.stringify).forEach(e => console.log(e))
+text.map(t => parseTree(t)).map(JSON.stringify).forEach(e => console.log(e))
