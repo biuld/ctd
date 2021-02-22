@@ -1,0 +1,12 @@
+{
+  "name": "dangling-else",
+  "version": "1.0.0",
+  "description": "solution for the dangling else problem",
+  "main": "entry.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
