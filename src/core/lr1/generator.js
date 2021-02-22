@@ -108,6 +108,7 @@ export class Generator {
             acc.push(cur)
           return acc
         }, [])
+      item[k].sort()
     })
 
     return item
@@ -154,7 +155,6 @@ export class Generator {
     let [res, go] = this.itemSet(init)
 
     // console.log(JSON.stringify(res))
-    // console.log(go)
 
     res.forEach((item, index) => {
       item
@@ -169,6 +169,7 @@ export class Generator {
             go[index]['$'] = "acc"
         })
     })
+    // console.log(go)
     return go
   }
 }
