@@ -5,14 +5,13 @@
         <v-col>
           <code-editor desc="请输入LR(1)文法" :initialCode="code" @code="act" />
         </v-col>
-        <v-col><notes title="LR(1)分析表" :text="table" /></v-col>
+        <v-col><v-data-table :headers="header" :items="table" /></v-col>
       </v-row>
     </v-container>
   </v-main>
 </template>
 
 <script>
-import Notes from "./common/Notes";
 import CodeEditor from "./common/CodeEditor";
 import { convertTable } from "@/core/lr1/entry";
 import { Generator } from "@/core/lr1/generator";
@@ -22,7 +21,6 @@ import grammar from "@/core/lr1/grammar.json";
 export default {
   name: "LR1Gen",
   components: {
-    notes: Notes,
     "code-editor": CodeEditor,
   },
   data: function () {
@@ -42,6 +40,13 @@ export default {
     },
     table: function () {
       return convertTable(this.generator.parsingTable);
+    },
+    header: function () {
+      return [{ text: "state", value: "state" }].concat(
+        this.gram.T.map((i) => {
+          return { text: i, value: i };
+        })
+      );
     },
   },
   methods: {
