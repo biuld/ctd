@@ -10,19 +10,17 @@
       <v-toolbar-title>{{ title }}</v-toolbar-title>
     </v-app-bar>
 
-      <derivation />
+    <router-view />
   </v-app>
 </template>
 
 <script>
 import AppDrawer from "./components/AppDrawer";
-import Derivation from "./components/ct1/Derivation";
 
 export default {
   name: "App",
   components: {
     "app-drawer": AppDrawer,
-    derivation: Derivation,
   },
   data: () => ({
     drawer: true,
