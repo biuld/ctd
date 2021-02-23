@@ -1,14 +1,14 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-spacer />
-      <v-col>
-        <v-sheet :id="id" width="20rem" height="20rem" rounded="lg" outlined />
-      </v-col>
-
-      <v-spacer />
-    </v-row>
-  </v-container>
+  <!-- <v-container> -->
+  <!-- <v-row> -->
+  <!-- <v-spacer /> -->
+  <!-- <v-col> -->
+  <v-sheet :id="id" width="20rem" height="20rem" rounded="lg" outlined />
+  <!-- </v-col> -->
+  <!--  -->
+  <!-- <v-spacer /> -->
+  <!-- </v-row> -->
+  <!-- </v-container> -->
 </template>
 
 <script>
@@ -47,6 +47,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-</style>

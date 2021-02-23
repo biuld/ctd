@@ -1,6 +1,4 @@
 
-import { Grammar } from '../common/grammar.js'
-
 function alter(NT) {
   return "alter" + NT
 }
@@ -37,7 +35,7 @@ function remove_direct(gram, nt) {
   }
 }
 
-function eliminate(gram) {
+export function eliminate(gram) {
   for (let i = 0; i < gram.NT.length; i++) {
     gram
       .rules(gram.NT[i])
@@ -77,17 +75,21 @@ function eliminate(gram) {
   }
 }
 
-const T = ["a", "b", "c"]
-const NT = ["S", "Q", "R"]
-const g = [
-  ["S", ["Q", "c"]],
-  ["S", ["c"]],
-  ["Q", ["R", "b"]],
-  ["Q", ["b"]],
-  ["R", ["S", "a"]],
-  ["R", ["a"]]
-]
+export function convert(g) {
+  return g.map(([left, right]) => `${left} => ${right.join(" ")}`)
+}
 
-let gram = new Grammar(T, NT, g)
-eliminate(gram)
-console.log(gram.g)
+// const T = ["a", "b", "c"]
+// const NT = ["S", "Q", "R"]
+// const g = [
+//   ["S", ["Q", "c"]],
+//   ["S", ["c"]],
+//   ["Q", ["R", "b"]],
+//   ["Q", ["b"]],
+//   ["R", ["S", "a"]],
+//   ["R", ["a"]]
+// ]
+
+// let gram = new Grammar(T, NT, g)
+// eliminate(gram)
+// console.log(gram.g)

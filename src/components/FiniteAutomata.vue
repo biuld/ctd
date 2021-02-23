@@ -1,9 +1,9 @@
 <template>
   <v-main class="grey darken-3">
     <v-container fill-height>
-      <v-row no-gutters>
+      <v-row align="start">
         <v-col>
-          <code-editor desc="finite automata" :initialCode="code" />
+          <code-editor desc="finite automata" :initialCode="code" @code="act" />
         </v-col>
         <v-col>
           <graph :fa="nfa" id="nfa" />
@@ -44,8 +44,10 @@ export default {
       return convert(determine(this.raw));
     },
   },
+  methods: {
+    act: function (code) {
+      this.raw = JSON.parse(code);
+    },
+  },
 };
 </script>
-
-<style scoped>
-</style>

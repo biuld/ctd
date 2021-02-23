@@ -38,9 +38,9 @@ export default {
       "消除左递归",
       "算符优先分析器",
       "LL(1)分析",
-      "LR(1)分析"
+      "LR(1)分析",
     ],
-    links: ["/derivation", "/dangling-else", "/finite-automata"],
+    links: ["/derivation", "/dangling-else", "/finite-automata", "/left-recur"],
     selected: null,
     avatar: avatar,
   }),
@@ -56,6 +56,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-</style>

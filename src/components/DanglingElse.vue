@@ -1,7 +1,7 @@
 <template>
   <v-main class="grey darken-3">
     <v-container fill-height>
-      <v-row no-gutters>
+      <v-row align="start">
         <v-col>
           <code-editor :desc="desc" :initialCode="code" @code="draw" />
         </v-col>
@@ -41,6 +41,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-</style>
