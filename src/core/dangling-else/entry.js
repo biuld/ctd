@@ -1,6 +1,6 @@
 
 function lexx(text) {
-  return text.split(/[\s\(\)]+/).filter(e => e != "")
+  return text.split(/[\s\(\)\{\}]+/).filter(e => e != "")
 }
 
 function Stat(id, l, r) {
@@ -15,7 +15,7 @@ function token_check(expected, got) {
 }
 
 function parse(tokens) {
-  let [if_token, id, , ...tail] = tokens
+  let [if_token, id, ...tail] = tokens
   if (if_token === "if") {
     let next
 
@@ -59,12 +59,12 @@ export const tryParse = text => parse(lexx(text))[0]
 export const parseTree = text => convert(tryParse(text))
 
 let text = [
-  "if true then A else B",
-  "if true then (if true then A else B)",
-  "if true then (if true then A else B) else C",
-  "if true then (if true then A else (if true then C))",
-  "if true then (if true then A else B) else (if true then C)",
-  "if true then (if true then A else B) else (if true then C else D)"
+  "if (true) A else B",
+  "if (true) { if (true) A else B }",
+  "if (true) { if (true) A else B } else C",
+  "if (true) { if (true) A else { if (true) B }",
+  "if (true) { if (true) A else B } else { if (true) C }",
+  "if (true) { if (true) A else B } else { if (true) C else D}"
 ]
 
 text.map(t => tryParse(t)).map(JSON.stringify).forEach(e => console.log(e))
