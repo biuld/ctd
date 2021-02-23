@@ -1,4 +1,4 @@
-import Derivation from "./components/ct1/Derivation"
+import Derivation from "./components/Derivation"
 
 const route = [
   { path: "/derivation", component: Derivation }

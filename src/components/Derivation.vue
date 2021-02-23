@@ -53,8 +53,8 @@
 </template>
 
 <script>
-import Op from "./Op";
-import LR1 from "./LR1";
+import Op from "./common/Op";
+import LR1 from "./common/LR1";
 
 export default {
   name: "Derivation",

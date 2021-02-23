@@ -12,9 +12,9 @@
 </template>
 
 <script>
-import json from "../assets/graph-option.json";
-import { m } from "../core/fa/nfa";
-import { convert, determine } from "../core/fa/entry";
+import json from "@/assets/graph-option.json";
+import { m } from "@/core/fa/nfa";
+import { convert, determine } from "@/core/fa/entry";
 
 export default {
   props: {

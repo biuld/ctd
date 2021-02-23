@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import json from "../assets/tree-option.json";
+import json from "@/assets/tree-option.json";
 
 export default {
   props: {
