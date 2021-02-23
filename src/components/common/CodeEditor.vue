@@ -1,12 +1,21 @@
 <template>
-  <v-main>
-    <prism-editor
-      class="my-editor"
-      v-model="code"
-      :highlight="highlighter"
-      line-numbers
-    ></prism-editor>
-  </v-main>
+  <v-card>
+    <v-card-subtitle> {{ desc }} </v-card-subtitle>
+    <v-fab-transition>
+      <v-btn @click="emit" color="pink" dark absolute bottom right fab>
+        <v-icon>mdi-arrow-right</v-icon>
+      </v-btn>
+    </v-fab-transition>
+
+    <v-card-text>
+      <prism-editor
+        class="my-editor"
+        v-model="code"
+        :highlight="highlighter"
+        line-numbers
+      />
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
@@ -24,10 +33,21 @@ export default {
   components: {
     PrismEditor,
   },
-  data: () => ({ code: 'console.log("Hello World")' }),
+  props: {
+    desc: String,
+    initialCode: String,
+  },
+  data: function () {
+    return {
+      code: this.initialCode,
+    };
+  },
   methods: {
-    highlighter(code) {
+    highlighter: function (code) {
       return highlight(code, languages.js); // languages.<insert language> to return html with markup
+    },
+    emit: function () {
+      this.$emit("code", this.code);
     },
   },
 };
@@ -44,6 +64,7 @@ export default {
   font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
   font-size: 14px;
   line-height: 1.5;
+  height: 400px;
   padding: 5px;
 }
 

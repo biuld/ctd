@@ -1,6 +1,6 @@
 
 function lexx(text) {
-  return text.split(/[\s\(\)\{\}]+/).filter(e => e != "")
+  return text.split(/[\s(){}]+/).filter(e => e != "")
 }
 
 function Stat(id, l, r) {
@@ -58,14 +58,15 @@ export const tryParse = text => parse(lexx(text))[0]
 
 export const parseTree = text => convert(tryParse(text))
 
-let text = [
-  "if (true) A else B",
-  "if (true) { if (true) A else B }",
-  "if (true) { if (true) A else B } else C",
-  "if (true) { if (true) A else { if (true) B }",
-  "if (true) { if (true) A else B } else { if (true) C }",
-  "if (true) { if (true) A else B } else { if (true) C else D}"
-]
-
-text.map(t => tryParse(t)).map(JSON.stringify).forEach(e => console.log(e))
-text.map(t => parseTree(t)).map(JSON.stringify).forEach(e => console.log(e))
+export const initialCode =`
+if (a) {
+  if (b) 
+    A 
+  else 
+    B 
+} else { 
+  if (c) 
+    C 
+  else 
+    D
+}`
