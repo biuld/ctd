@@ -13,19 +13,16 @@
 
 <script>
 import json from "@/assets/graph-option.json";
-import { m } from "@/core/fa/nfa";
-import { convert, determine } from "@/core/fa/entry";
 
 export default {
   props: {
-    // fa: Object,
+    fa: Object,
     id: String,
   },
   data() {
     return {
       option: json,
       chart: null,
-      fa: convert(determine(m)),
     };
   },
   methods: {

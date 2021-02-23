@@ -34,13 +34,13 @@ export default {
     menus: [
       "最左推导和最右推导",
       "Dangling Else",
-      "DFA M",
       "NFA => DFA",
       "消除左递归",
       "算符优先分析器",
       "LL(1)分析",
+      "LR(1)分析"
     ],
-    links: ["/derivation", "/dangling-else"],
+    links: ["/derivation", "/dangling-else", "/finite-automata"],
     selected: null,
     avatar: avatar,
   }),

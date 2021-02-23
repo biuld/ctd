@@ -1,0 +1,51 @@
+<template>
+  <v-main class="grey darken-3">
+    <v-container fill-height>
+      <v-row no-gutters>
+        <v-col>
+          <code-editor desc="finite automata" :initialCode="code" />
+        </v-col>
+        <v-col>
+          <graph :fa="nfa" id="nfa" />
+        </v-col>
+        <v-col>
+          <graph :fa="dfa" id="dfa" />
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-main>
+</template>
+
+<script>
+import CodeEditor from "./common/CodeEditor";
+import Graph from "./common/Graph";
+import raw from "@/core/fa/nfa.json";
+import { convert, determine } from "@/core/fa/entry";
+
+export default {
+  name: "FiniteAutomata",
+  components: {
+    graph: Graph,
+    "code-editor": CodeEditor,
+  },
+  data: function () {
+    return {
+      raw: raw,
+    };
+  },
+  computed: {
+    code: function () {
+      return JSON.stringify(this.raw, null, 2);
+    },
+    nfa: function () {
+      return convert(this.raw);
+    },
+    dfa: function () {
+      return convert(determine(this.raw));
+    },
+  },
+};
+</script>
+
+<style scoped>
+</style>
