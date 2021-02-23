@@ -11,7 +11,9 @@
     "core-js": "^3.6.5",
     "echarts": "^5.0.1",
     "lodash": "^4.17.20",
+    "prismjs": "^1.23.0",
     "vue": "^2.6.11",
+    "vue-prism-editor": "^1.2.2",
     "vuetify": "^2.2.11"
   },
   "devDependencies": {
