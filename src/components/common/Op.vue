@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title>LL(1) parser</v-card-title>
+    <v-card-title>Operator Precedence parser</v-card-title>
     <v-card-text>
       <tree :tokens="tokens" id="op" />
     </v-card-text>
