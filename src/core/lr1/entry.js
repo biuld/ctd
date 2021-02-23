@@ -37,4 +37,13 @@ function convert(e) {
   }
 }
 
+export function convertTable(table) {
+  return Object.entries(table).map(([k, v]) => {
+    let value = Object.entries(v)
+      .map(([ik, iv]) => `${ik}: ${iv}`)
+
+    return `${k}: { ${value.join(" ")} }`
+  })
+}
+
 // tryParse("1 + 2 * 3 - 4 / 5")

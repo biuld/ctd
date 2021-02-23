@@ -45,6 +45,7 @@ export default {
       "/finite-automata",
       "/left-recur",
       "/ll1-gen",
+      "/lr1-gen"
     ],
     selected: null,
     avatar: avatar,
