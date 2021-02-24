@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card min-width="20rem">
     <v-card-title v-show="title"> {{ title }} </v-card-title>
     <v-card-subtitle v-show="subtitle"> {{ subtitle }} </v-card-subtitle>
     <v-card-text v-show="text">
