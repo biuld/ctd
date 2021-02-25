@@ -1,7 +1,9 @@
 <template>
   <v-row>
     <v-col>
-      <v-img v-ripple @click="backToHome" :src="avatar" height="30vh" dark />
+      <router-link to="/">
+        <v-img v-ripple @click="backToHome" :src="avatar" height="30vh" dark />
+      </router-link>
       <v-list dense>
         <v-list-item-group v-model="selected">
           <v-list-item
@@ -45,7 +47,7 @@ export default {
       "/finite-automata",
       "/left-recur",
       "/ll1-gen",
-      "/lr1-gen"
+      "/lr1-gen",
     ],
     selected: null,
     avatar: avatar,
