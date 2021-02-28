@@ -1,24 +1,19 @@
-# ctd
+# Compiling Theory Demonstration
 
-## Project setup
-```
-npm install
-```
+This project demonstrates some algorithms of compiling theory 
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Currently, it contains: 
 
-### Compiles and minifies for production
-```
-npm run build
-```
+- A operator-precedence parser and a lr1 parser
+- A way to resolve the dangling else problem
+- NFA to DFA conversion
+- Left recursion elimination 
+- The first set and follow set computation of ll1 parsing
+- A parsing table generator of lr1 parsing
 
-### Lints and fixes files
-```
-npm run lint
-```
+For more information, you can check the website!
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+PS: prs and issues are welcomed 😎! 
+
+![sample](./img/sample.png)
+
