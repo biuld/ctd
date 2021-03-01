@@ -8,6 +8,10 @@
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>{{ title }}</v-toolbar-title>
+      <v-spacer />
+      <v-btn icon link href="https://github.com/biuld/ctd">
+        <v-icon>mdi-github</v-icon>
+      </v-btn>
     </v-app-bar>
 
     <router-view />
