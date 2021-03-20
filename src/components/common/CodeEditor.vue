@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card min-width="30vw">
     <v-card-subtitle> {{ desc }} </v-card-subtitle>
     <v-fab-transition>
       <v-btn @click="emit" color="pink" dark absolute bottom right fab>
@@ -29,7 +29,7 @@ import "prismjs/components/prism-clike";
 import "prismjs/components/prism-javascript";
 import "prismjs/themes/prism-tomorrow.css"; // import syntax highlighting styles
 
-import stringifyObject from "stringify-object";
+import beautify from "json-beautify";
 
 export default {
   components: {
@@ -37,16 +37,14 @@ export default {
   },
   props: {
     desc: String,
-    initialCode: Object,
+    initialCode: Object | String,
   },
   data: function () {
     return {
       code:
         typeof this.initialCode === "string"
           ? this.initialCode
-          : stringifyObject(this.initialCode, {
-              inlineCharacterLimit: 32,
-            }),
+          : beautify(this.initialCode, null, 2, 48),
     };
   },
   methods: {

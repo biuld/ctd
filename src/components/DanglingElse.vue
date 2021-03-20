@@ -6,6 +6,7 @@
           <code-editor :desc="desc" :initialCode="code" @code="draw" />
         </v-col>
         <v-col><tree id="dangling-else" :tokens="tokens" /></v-col>
+        <v-spacer cols="auto"/>
       </v-row>
     </v-container>
   </v-main>

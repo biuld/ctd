@@ -11,6 +11,7 @@
         <v-col>
           <graph :fa="dfa" id="dfa" />
         </v-col>
+        <v-spacer cols="auto"/>
       </v-row>
     </v-container>
   </v-main>

@@ -11,6 +11,7 @@
         </v-col>
         <v-col><notes title="消除左递归前" :text="left" /></v-col>
         <v-col><notes title="消除左递归后" :text="left_free" /></v-col>
+        <v-spacer cols="auto"/>
       </v-row>
     </v-container>
   </v-main>

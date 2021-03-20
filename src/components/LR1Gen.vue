@@ -3,9 +3,13 @@
     <v-container fill-height>
       <v-row align="start">
         <v-col>
-          <code-editor desc="请输入LR(1)文法" :initialCode="grammar" @code="act" />
+          <code-editor
+            desc="请输入LR(1)文法"
+            :initialCode="grammar"
+            @code="act"
+          />
         </v-col>
-        <v-col><v-data-table :headers="header" :items="table" /></v-col>
+        <v-col><v-data-table :headers="header" :items="table"/></v-col>
       </v-row>
     </v-container>
   </v-main>

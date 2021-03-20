@@ -9,8 +9,13 @@
             @code="act"
           />
         </v-col>
-        <v-col><notes title="first集" :text="firstSet" /></v-col>
-        <v-col><notes title="follow集" :text="followSet" /></v-col>
+        <v-col>
+          <v-row>
+            <v-col><notes title="first集" :text="firstSet" /></v-col>
+            <v-col><notes title="follow集" :text="followSet" /></v-col>
+          </v-row>
+        </v-col>
+        <v-spacer cols="auto"/>
       </v-row>
     </v-container>
   </v-main>
