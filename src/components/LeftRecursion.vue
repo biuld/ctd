@@ -5,7 +5,7 @@
         <v-col>
           <code-editor
             desc="left recursion elimination"
-            :initialCode="code"
+            :initialCode="raw"
             @code="act"
           />
         </v-col>
@@ -36,9 +36,6 @@ export default {
     };
   },
   computed: {
-    code: function () {
-      return JSON.stringify(this.raw, null, 2);
-    },
     left: function () {
       return convert(this.raw.g);
     },

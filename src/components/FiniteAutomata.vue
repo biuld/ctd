@@ -3,7 +3,7 @@
     <v-container fill-height>
       <v-row align="start">
         <v-col>
-          <code-editor desc="finite automata" :initialCode="code" @code="act" />
+          <code-editor desc="finite automata" :initialCode="raw" @code="act" />
         </v-col>
         <v-col>
           <graph :fa="nfa" id="nfa" />
@@ -34,9 +34,6 @@ export default {
     };
   },
   computed: {
-    code: function () {
-      return JSON.stringify(this.raw, null, 2);
-    },
     nfa: function () {
       return convert(this.raw);
     },

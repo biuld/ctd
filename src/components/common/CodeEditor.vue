@@ -29,17 +29,24 @@ import "prismjs/components/prism-clike";
 import "prismjs/components/prism-javascript";
 import "prismjs/themes/prism-tomorrow.css"; // import syntax highlighting styles
 
+import stringifyObject from "stringify-object";
+
 export default {
   components: {
     PrismEditor,
   },
   props: {
     desc: String,
-    initialCode: String,
+    initialCode: Object,
   },
   data: function () {
     return {
-      code: this.initialCode,
+      code:
+        typeof this.initialCode === "string"
+          ? this.initialCode
+          : stringifyObject(this.initialCode, {
+              inlineCharacterLimit: 32,
+            }),
     };
   },
   methods: {

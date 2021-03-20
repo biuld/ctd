@@ -5,7 +5,7 @@
         <v-col>
           <code-editor
             desc="请输入LL(1)文法"
-            :initialCode="code"
+            :initialCode="grammar"
             @code="act"
           />
         </v-col>
@@ -36,9 +36,6 @@ export default {
     };
   },
   computed: {
-    code: function () {
-      return JSON.stringify(this.grammar, null, 2);
-    },
     gram: function () {
       return new Grammar(this.grammar.T, this.grammar.NT, this.grammar.g);
     },
