@@ -2,6 +2,7 @@
   <v-card>
     <v-card-title>Operator Precedence parser</v-card-title>
     <v-card-text>
+      <div class="text-subtitle-2">支持无括号的正整数四则运算</div>
       <tree :tokens="tokens" id="op" />
     </v-card-text>
     <v-card-actions>
@@ -12,6 +13,7 @@
               label="expr"
               v-model.lazy="input"
               @keyup.enter="act"
+              :rules="[exprCheck]"
             />
           </v-col>
           <v-col>
@@ -43,6 +45,9 @@ export default {
     act: _.debounce(function () {
       this.content = this.input;
     }, 500),
+    exprCheck: function (str) {
+      return /^\d([+\-*/]\d)*$/.test(str);
+    },
   },
   computed: {
     tokens: function () {
