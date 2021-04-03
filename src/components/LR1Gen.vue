@@ -9,7 +9,7 @@
             @code="act"
           />
         </v-col>
-        <v-col><v-data-table :headers="header" :items="table"/></v-col>
+        <v-col><v-data-table :headers="header" :items="table" /></v-col>
       </v-row>
     </v-container>
   </v-main>
@@ -44,7 +44,7 @@ export default {
     },
     header: function () {
       return [{ text: "state", value: "state" }].concat(
-        this.gram.T.map((i) => {
+        this.gram.T.concat(this.gram.NT).map((i) => {
           return { text: i, value: i };
         })
       );
