@@ -1,5 +1,5 @@
 <template>
-  <v-card min-width="30vw">
+  <v-card min-width="25vw">
     <v-card-subtitle> {{ desc }} </v-card-subtitle>
     <v-fab-transition>
       <v-btn @click="emit" color="pink" dark absolute bottom right fab>
